@@ -17,13 +17,13 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Basket result = new Basket(products, prices);
 
-        File textFile = new File("basket.txt");
+        File textFile = new File("basket.bin");
         try {
             if (textFile.exists()) {
-                result = Basket.loadFromTxtFile(textFile);
+                result = Basket.loadFromBinFile(textFile);
             } else if (textFile.createNewFile())
                 System.out.println("Файл был создан");
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
         result.printCart();
@@ -39,7 +39,7 @@ public class Main {
             int productQuantity = parseInt(current[1]);
             result.addToCart(productNumber - 1, productQuantity);
 
-            result.saveTxt(textFile);
+            result.saveBin(textFile);
         }
         result.printCart();
     }
