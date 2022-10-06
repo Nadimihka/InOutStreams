@@ -16,12 +16,15 @@ public class Main {
         }
         Scanner scanner = new Scanner(System.in);
         Basket result = new Basket(products, prices);
+        ClientLog clientLog = new ClientLog();
 
-        File textFile = new File("basket.txt");
+        File jsonFile = new File("basket.json");
+        File csvFile = new File("log.csv");
+
         try {
-            if (textFile.exists()) {
-                result = Basket.loadFromTxtFile(textFile);
-            } else if (textFile.createNewFile())
+            if (jsonFile.exists()) {
+                result = Basket.loadFromJsonFile(jsonFile);
+            } else if (jsonFile.createNewFile())
                 System.out.println("Файл был создан");
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -38,9 +41,10 @@ public class Main {
             int productNumber = parseInt(current[0]);
             int productQuantity = parseInt(current[1]);
             result.addToCart(productNumber - 1, productQuantity);
-
-            result.saveTxt(textFile);
+            clientLog.log(productNumber, productQuantity);
         }
+        result.saveJson(jsonFile);
+        clientLog.exportAsCSV(csvFile);
         result.printCart();
     }
 }
