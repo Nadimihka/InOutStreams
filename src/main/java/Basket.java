@@ -81,7 +81,6 @@ public class Basket {
             Gson gson = new Gson();
             String json = gson.toJson(this);
             out.println(json);
-            //        System.out.println(json);
         }
     }
 
